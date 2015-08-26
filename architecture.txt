@@ -1,0 +1,74 @@
+The system consists of two parts: A live model, which creates a web service
+(local-only to start with), and a layer that provides an interface for it for
+users.
+
+The root of the web service provides certain web methods for managing models,
+loading and unloading them, etc.  Every model, by modelID, defines a unique
+endpoint on the same web service underneath that main endpoint and presents
+its own set of web methods there.
+
+On startup, the model reads its current state, as stored in an XML file.  This
+includes the historical state of each object, the state of the type objects,
+and the state of the model's change history.  On shut-down, it serializes this
+back out.  Every model has a globally unique ID, and every external change has
+an ID which is globally unique for the current model.  Every model knows its
+modeling system version, but the modeling system is responsible for upgrading
+the stored data if needed for an upgrade; this is not done on live objects.
+
+The model contains a number of objects which listen for events.  Each object
+knows those objects it needs to inform for which events.  Each object knows
+the sequence of changes in its own state and which events triggered those
+changes.  Given a change ID, it can roll its state back to that state.
+Objects also know the list of forks they're present in.
+
+Every external change received is serialized to the persistent change history,
+as are the IDs, senders, and recivers of all events triggers in response to
+that change.  Objects that are deleted are still refered to in the change
+history.  The history can be run backwards in steps defined by external
+changes.  When history runs backward, the set of events to be revoked is sent
+to the relevant objects.  The undone changes are serialized into a static
+change set or fork, which includes the external change fragments, in order,
+the final state of the model, and the point in the change history it branches
+from.  It can be inspected, but not changed.  The model can be moved to
+a frozen fork, in which case the final state is put into a new fork along
+with the external changes, the model state goes back to that at time of
+forking, and the other fork's external changes are replayed.  The change
+history can be pruned, and no undos can go back before the pruning.  Any forks
+that depend on a time point earlier than the pruning delete themselves, and
+objects that no longer exist in at least one fork do the same.  External
+changes can be played from a frozen fork into the current fork.  If they have
+dependencies that do not exist in the current for, they will trigger an error
+that the user must resolve manually.
+
+A set of changes change be serialized out as a fork and sent to e.g. another
+instance of the same model.  They will not apply if they do not have the same
+model ID and if the branch point they depend on is not present in that model's
+change history.  When they're applied, they create a new frozen fork in that
+instance of the model.  If the ID does not match or the branch point is
+missing, they can instead be played into the current fork, but they must be
+submitted normally and may cause errors.
+
+External changes are XML blobs.  When an external change is submitted, the
+result is the change in the state of the model after all events are computed.
+A change buffer is created on message send and every object, including type
+objects, adds their changes to that buffer.  The same thing happens for undo
+operations, fork operations, and fork-change operations.  The entire current
+state of the model can be dumped, as can the change history and external
+change operations, either entirely, for a specific fork, or starting with a
+certain change ID.  These dumps can have different levels of detail.
+
+A basic interface text interface REPL is available for debugging purposes, and
+the classes it uses can be specialized to create GUIs.
+
+FIXME -- redo to match current architecture
+
+
+
+TObject extends object such that writing trike classes looks like writing
+normal python, and within certain limits, no added work need be done to get
+safe trike code.
+
+the trike repl *also* looks like normal python, possibly with automatic
+self-scoping, no references outside that scope
+
+

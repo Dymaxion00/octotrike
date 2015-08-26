@@ -1,0 +1,87 @@
+Learn git and set up repo
+
+XXXPseudo-code model, change, and branch system
+Pseudo-code trivial object
+Pseudo-code core object and event system
+Pseudo-code web service
+Pseudo-code controller
+Pseudo-code view-core
+Define data format for web service
+Pseudo-code spreadsheet-parity Trike model
+Define data format for Trike model
+Handoff to Eldan
+
+Define data format for disk serialization
+Pseudo-code text interface
+Define language for text interface
+
+Choose and learn python test framework
+
+Implement tests for model
+Implement model
+Implement tests for service
+Implement service
+Implement tests for trivial object
+Implement trivial object
+Implement tests for controller
+Implement controller
+Implemwent tests for view-core
+Implement view-core
+Implement tests for text interface
+Implement text interface
+Implement tests for Trike model
+Implement Trike model
+
+Choose and learn python GUI framework
+Write GUI architecture document
+Pseudo-code GUI
+Implement tests for GUI
+Implement GUI
+
+Theory for applicability filters
+Theory for multiple threat model perspectives
+Theory for adversary capability models
+Theory for invariants
+Rethink from outcomes perspective
+Rework language
+Theory for protocols
+Theory for attack graphs
+Theory for single-point-of-failure detection
+Theory for attack cost and risk models
+Theory for system fragility/SPoF measures
+Theory for speculative queries
+Operations for SDLC test-case generation
+Theory for representing action/decision points
+Theory for measured user failure rates/causes
+Theory for cognitive planning overhead
+Theory for model legibility to actors
+Theory for qualitative system social dynamics
+Theory for coordination cost between actors
+Theory for representaiton of metadata leak sources
+Theory for efficacy of knowledge extraction for surveillance adversaries
+Theory for explicitly modeling trust delegation (P3KI?)
+Implement all that noise
+----------------------
+Todo:
+
+Class methods to register type IDs
+ReceiveBranch
+Objects that skip changeIDs
+
+TObject.synthesize()
+Event processing
+Change processing
+
+Actor renaming
+Actor deletion
+ActionSet creation
+-->Finished pseudo-coding trivial object
+
+Serialization
+Error handling
+
+Consider using native types instead of typeIDs?
+How can we make writing model code more lightweight?
+-->Finished pseudo-coding core object and event system
+Look at real WS options
+Figure out if we need TMessage
